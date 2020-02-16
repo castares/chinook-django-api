@@ -9,7 +9,7 @@ from django.db import models
 
 
 class MediaTypes(models.Model):
-    mediatypeid = models.IntegerField(db_column='MediaTypeId', primary_key=True)  # Field name made lowercase.
+    mediatypeid = models.AutoField(db_column='MediaTypeId', primary_key=True)  # Field name made lowercase.
     name = models.CharField(db_column='Name', max_length=160)  # Field name made lowercase. This field type is a guess.
 
     class Meta:
@@ -18,7 +18,7 @@ class MediaTypes(models.Model):
 
 
 class Genres(models.Model):
-    genreid = models.IntegerField(db_column='GenreId', primary_key=True)  # Field name made lowercase.
+    genreid = models.AutoField(db_column='GenreId', primary_key=True)  # Field name made lowercase.
     name = models.CharField(db_column='Name', max_length=160)  # Field name made lowercase. This field type is a guess.
 
     class Meta:
@@ -27,16 +27,39 @@ class Genres(models.Model):
 
 class Playlists(models.Model):
     playlistid = models.AutoField(db_column='PlaylistId', primary_key=True)  # Field name made lowercase.
-    name = models.CharField(db_column='Name', blank=True, null=True)  # Field name made lowercase. This field type is a guess.
+    name = models.CharField(db_column='Name', max_length=160)  # Field name made lowercase. This field type is a guess.
 
     class Meta:
         managed = False
         db_table = 'playlists'
 
+class PlaylistTrack(models.Model):
+    id = models.AutoField(primary_key=True)
+    playlistid = models.ForeignKey("Playlists", db_column='PlaylistId', on_delete=models.CASCADE)  # Field name made lowercase.
+    trackid = models.ForeignKey("Tracks", db_column='TrackId', on_delete=models.CASCADE)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'playlist_track'
+
+class Tracks(models.Model):
+    trackid = models.AutoField(db_column='TrackId', primary_key=True)  # Field name made lowercase.
+    name = models.CharField(db_column='Name', max_length=160)   # Field name made lowercase. This field type is a guess.
+    albumid = models.ForeignKey('Albums', db_column='AlbumId', on_delete=models.CASCADE)  # Field name made lowercase.
+    mediatypeid = models.ForeignKey('MediaTypes', db_column='MediaTypeId', on_delete=models.CASCADE)  # Field name made lowercase.
+    genreid = models.ForeignKey('Genres', db_column='GenreId', on_delete=models.CASCADE)  # Field name made lowercase.
+    composer = models.CharField(db_column='Composer', max_length=160, blank=True, null=True)  # Field name made lowercase. This field type is a guess.
+    milliseconds = models.IntegerField(db_column='Milliseconds')  # Field name made lowercase.
+    bytes = models.IntegerField(db_column='Bytes', blank=True, null=True)  # Field name made lowercase.
+    unitprice = models.CharField(db_column='UnitPrice', max_length=160)  # Field name made lowercase. This field type is a guess.
+
+    class Meta:
+        managed = False
+        db_table = 'tracks'
 
 class Albums(models.Model):
     albumid = models.AutoField(db_column='AlbumId', primary_key=True)  # Field name made lowercase.
-    title = models.CharField(db_column='Title')  # Field name made lowercase. This field type is a guess.
+    title = models.CharField(db_column='Title', max_length=160)  # Field name made lowercase. This field type is a guess.
     artistid = models.IntegerField(db_column='ArtistId')  # Field name made lowercase.
 
     class Meta:
@@ -46,7 +69,7 @@ class Albums(models.Model):
 
 class Artists(models.Model):
     artistid = models.AutoField(db_column='ArtistId', primary_key=True)  # Field name made lowercase.
-    name = models.CharField(db_column='Name', blank=True, null=True)  # Field name made lowercase. This field type is a guess.
+    name = models.CharField(db_column='Name', max_length=160, blank=True, null=True)  # Field name made lowercase. This field type is a guess.
 
     class Meta:
         managed = False
@@ -55,18 +78,18 @@ class Artists(models.Model):
 
 class Customers(models.Model):
     customerid = models.AutoField(db_column='CustomerId', primary_key=True)  # Field name made lowercase.
-    firstname = models.CharField(db_column='FirstName')  # Field name made lowercase. This field type is a guess.
-    lastname = models.CharField(db_column='LastName')  # Field name made lowercase. This field type is a guess.
-    company = models.CharField(db_column='Company', blank=True, null=True)  # Field name made lowercase. This field type is a guess.
-    address = models.CharField(db_column='Address', blank=True, null=True)  # Field name made lowercase. This field type is a guess.
-    city = models.CharField(db_column='City', blank=True, null=True)  # Field name made lowercase. This field type is a guess.
-    state = models.CharField(db_column='State', blank=True, null=True)  # Field name made lowercase. This field type is a guess.
-    country = models.CharField(db_column='Country', blank=True, null=True)  # Field name made lowercase. This field type is a guess.
-    postalcode = models.CharField(db_column='PostalCode', blank=True, null=True)  # Field name made lowercase. This field type is a guess.
-    phone = models.CharField(db_column='Phone', blank=True, null=True)  # Field name made lowercase. This field type is a guess.
-    fax = models.CharField(db_column='Fax', blank=True, null=True)  # Field name made lowercase. This field type is a guess.
-    email = models.CharField(db_column='Email')  # Field name made lowercase. This field type is a guess.
-    supportrepid = models.IntegerField(db_column='SupportRepId', blank=True, null=True)  # Field name made lowercase.
+    firstname = models.CharField(db_column='FirstName', max_length=160)  # Field name made lowercase. This field type is a guess.
+    lastname = models.CharField(db_column='LastName', max_length=160)  # Field name made lowercase. This field type is a guess.
+    company = models.CharField(db_column='Company', max_length=160, blank=True, null=True)  # Field name made lowercase. This field type is a guess.
+    address = models.CharField(db_column='Address', max_length=160, blank=True, null=True)  # Field name made lowercase. This field type is a guess.
+    city = models.CharField(db_column='City', max_length=160, blank=True, null=True)  # Field name made lowercase. This field type is a guess.
+    state = models.CharField(db_column='State', max_length=160, blank=True, null=True)  # Field name made lowercase. This field type is a guess.
+    country = models.CharField(db_column='Country', max_length=160, blank=True, null=True)  # Field name made lowercase. This field type is a guess.
+    postalcode = models.CharField(db_column='PostalCode', max_length=160, blank=True, null=True)  # Field name made lowercase. This field type is a guess.
+    phone = models.CharField(db_column='Phone', max_length=160, blank=True, null=True)  # Field name made lowercase. This field type is a guess.
+    fax = models.CharField(db_column='Fax', max_length=160, blank=True, null=True)  # Field name made lowercase. This field type is a guess.
+    email = models.CharField(db_column='Email', max_length=160)  # Field name made lowercase. This field type is a guess.
+    supportrepid = models.ForeignKey('Employees', db_column='SupportRepId', on_delete=models.CASCADE)  # Field name made lowercase.
 
     class Meta:
         managed = False
@@ -75,20 +98,20 @@ class Customers(models.Model):
 
 class Employees(models.Model):
     employeeid = models.AutoField(db_column='EmployeeId', primary_key=True)  # Field name made lowercase.
-    lastname = models.CharField(db_column='LastName')  # Field name made lowercase. This field type is a guess.
-    firstname = models.CharField(db_column='FirstName')  # Field name made lowercase. This field type is a guess.
-    title = models.CharField(db_column='Title', blank=True, null=True)  # Field name made lowercase. This field type is a guess.
+    lastname = models.CharField(db_column='LastName', max_length=160)  # Field name made lowercase. This field type is a guess.
+    firstname = models.CharField(db_column='FirstName', max_length=160)  # Field name made lowercase. This field type is a guess.
+    title = models.CharField(db_column='Title', max_length=160, blank=True, null=True)  # Field name made lowercase. This field type is a guess.
     reportsto = models.IntegerField(db_column='ReportsTo', blank=True, null=True)  # Field name made lowercase.
     birthdate = models.DateTimeField(db_column='BirthDate', blank=True, null=True)  # Field name made lowercase.
     hiredate = models.DateTimeField(db_column='HireDate', blank=True, null=True)  # Field name made lowercase.
-    address = models.CharField(db_column='Address', blank=True, null=True)  # Field name made lowercase. This field type is a guess.
-    city = models.CharField(db_column='City', blank=True, null=True)  # Field name made lowercase. This field type is a guess.
-    state = models.CharField(db_column='State', blank=True, null=True)  # Field name made lowercase. This field type is a guess.
-    country = models.CharField(db_column='Country', blank=True, null=True)  # Field name made lowercase. This field type is a guess.
-    postalcode = models.CharField(db_column='PostalCode', blank=True, null=True)  # Field name made lowercase. This field type is a guess.
-    phone = models.CharField(db_column='Phone', blank=True, null=True)  # Field name made lowercase. This field type is a guess.
-    fax = models.CharField(db_column='Fax', blank=True, null=True)  # Field name made lowercase. This field type is a guess.
-    email = models.CharField(db_column='Email', blank=True, null=True)  # Field name made lowercase. This field type is a guess.
+    address = models.CharField(db_column='Address', max_length=160, blank=True, null=True)  # Field name made lowercase. This field type is a guess.
+    city = models.CharField(db_column='City', max_length=160, blank=True, null=True)  # Field name made lowercase. This field type is a guess.
+    state = models.CharField(db_column='State', max_length=160, blank=True, null=True)  # Field name made lowercase. This field type is a guess.
+    country = models.CharField(db_column='Country', max_length=160, blank=True, null=True)  # Field name made lowercase. This field type is a guess.
+    postalcode = models.CharField(db_column='PostalCode', max_length=160, blank=True, null=True)  # Field name made lowercase. This field type is a guess.
+    phone = models.CharField(db_column='Phone', max_length=160, blank=True, null=True)  # Field name made lowercase. This field type is a guess.
+    fax = models.CharField(db_column='Fax',  max_length=160, blank=True, null=True)  # Field name made lowercase. This field type is a guess.
+    email = models.CharField(db_column='Email', max_length=160, blank=True, null=True)  # Field name made lowercase. This field type is a guess.
 
     class Meta:
         managed = False
@@ -97,9 +120,9 @@ class Employees(models.Model):
 
 class InvoiceItems(models.Model):
     invoicelineid = models.AutoField(db_column='InvoiceLineId', primary_key=True)  # Field name made lowercase.
-    invoiceid = models.IntegerField(db_column='InvoiceId')  # Field name made lowercase.
+    invoiceid = models.ForeignKey('Invoices', db_column='InvoiceId', on_delete=models.CASCADE)  # Field name made lowercase.
     trackid = models.IntegerField(db_column='TrackId')  # Field name made lowercase.
-    unitprice = models.CharField(db_column='UnitPrice')  # Field name made lowercase. This field type is a guess.
+    unitprice = models.CharField(db_column='UnitPrice', max_length=160)  # Field name made lowercase. This field type is a guess.
     quantity = models.IntegerField(db_column='Quantity')  # Field name made lowercase.
 
     class Meta:
@@ -109,60 +132,15 @@ class InvoiceItems(models.Model):
 
 class Invoices(models.Model):
     invoiceid = models.AutoField(db_column='InvoiceId', primary_key=True)  # Field name made lowercase.
-    customerid = models.IntegerField(db_column='CustomerId')  # Field name made lowercase.
+    customerid = models.ForeignKey('Customers', db_column='CustomerId', on_delete=models.PROTECT)  # Field name made lowercase.
     invoicedate = models.DateTimeField(db_column='InvoiceDate')  # Field name made lowercase.
-    billingaddress = models.CharField(db_column='BillingAddress', blank=True, null=True)  # Field name made lowercase. This field type is a guess.
-    billingcity = models.CharField(db_column='BillingCity', blank=True, null=True)  # Field name made lowercase. This field type is a guess.
-    billingstate = models.CharField(db_column='BillingState', blank=True, null=True)  # Field name made lowercase. This field type is a guess.
-    billingcountry = models.CharField(db_column='BillingCountry', blank=True, null=True)  # Field name made lowercase. This field type is a guess.
-    billingpostalcode = models.CharField(db_column='BillingPostalCode', blank=True, null=True)  # Field name made lowercase. This field type is a guess.
-    total = models.CharField(db_column='Total')  # Field name made lowercase. This field type is a guess.
+    billingaddress = models.CharField(db_column='BillingAddress', max_length=160, blank=True, null=True)  # Field name made lowercase. This field type is a guess.
+    billingcity = models.CharField(db_column='BillingCity', max_length=160, blank=True, null=True)  # Field name made lowercase. This field type is a guess.
+    billingstate = models.CharField(db_column='BillingState', max_length=160, blank=True, null=True)  # Field name made lowercase. This field type is a guess.
+    billingcountry = models.CharField(db_column='BillingCountry', max_length=160, blank=True, null=True)  # Field name made lowercase. This field type is a guess.
+    billingpostalcode = models.CharField(db_column='BillingPostalCode', max_length=160, blank=True, null=True)  # Field name made lowercase. This field type is a guess.
+    total = models.CharField(db_column='Total', max_length=160)  # Field name made lowercase. This field type is a guess.
 
     class Meta:
         managed = False
         db_table = 'invoices'
-
-
-class PlaylistTrack(models.Model):
-    id = models.AutoField(primary_key=True)
-    playlistid = models.AutoField(db_column='PlaylistId')  # Field name made lowercase.
-    trackid = models.IntegerField(db_column='TrackId')  # Field name made lowercase.
-
-    class Meta:
-        managed = False
-        db_table = 'playlist_track'
-
-
-class Playlists(models.Model):
-    playlistid = models.AutoField(db_column='PlaylistId', primary_key=True)  # Field name made lowercase.
-    name = models.CharField(db_column='Name', blank=True, null=True)  # Field name made lowercase. This field type is a guess.
-
-    class Meta:
-        managed = False
-        db_table = 'playlists'
-
-
-class SqliteStat1(models.Model):
-    tbl = models.CharField(blank=True, null=True)  # This field type is a guess.
-    idx = models.CharField(blank=True, null=True)  # This field type is a guess.
-    stat = models.CharField(blank=True, null=True)  # This field type is a guess.
-
-    class Meta:
-        managed = False
-        db_table = 'sqlite_stat1'
-
-
-class Tracks(models.Model):
-    trackid = models.AutoField(db_column='TrackId', primary_key=True)  # Field name made lowercase.
-    name = models.CharField(db_column='Name')  # Field name made lowercase. This field type is a guess.
-    albumid = models.IntegerField(db_column='AlbumId', blank=True, null=True)  # Field name made lowercase.
-    mediatypeid = models.IntegerField(db_column='MediaTypeId')  # Field name made lowercase.
-    genreid = models.IntegerField(db_column='GenreId', blank=True, null=True)  # Field name made lowercase.
-    composer = models.CharField(db_column='Composer', blank=True, null=True)  # Field name made lowercase. This field type is a guess.
-    milliseconds = models.IntegerField(db_column='Milliseconds')  # Field name made lowercase.
-    bytes = models.IntegerField(db_column='Bytes', blank=True, null=True)  # Field name made lowercase.
-    unitprice = models.CharField(db_column='UnitPrice')  # Field name made lowercase. This field type is a guess.
-
-    class Meta:
-        managed = False
-        db_table = 'tracks'
