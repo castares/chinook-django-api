@@ -17,3 +17,4 @@ class InvoicesSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Invoices
         fields = '__all__'
+
