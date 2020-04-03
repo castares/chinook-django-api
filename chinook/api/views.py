@@ -6,6 +6,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.generics import ListAPIView
 from rest_framework.reverse import reverse
+from rest_framework.pagination import PageNumberPagination
+from rest_framework.filters import SearchFilter, OrderingFilter
 
 # Local imports
 from .serializers import AlbumsSerializer, ArtistsSerializer, InvoicesSerializer
@@ -17,7 +19,6 @@ class AlbumsViewSet(viewsets.ModelViewSet):
     serializer_class = AlbumsSerializer
     queryset = Albums.objects.all().order_by('albumid')
 
-
 class ArtistsViewSet(viewsets.ModelViewSet):
     serializer_class = ArtistsSerializer
     queryset = Artists.objects.all().order_by('artistid')
@@ -25,11 +26,14 @@ class ArtistsViewSet(viewsets.ModelViewSet):
 
 # Class-based views
 class InvoicesView(ListAPIView):
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+    pagination_class = PageNumberPagination
     serializer_class = InvoicesSerializer
     queryset = Invoices.objects.all().order_by('invoiceid')
-
+    filter_backends = (SearchFilter, OrderingFilter)
+    search_fields = ('billingcity','billingstate', 'customerid_id__firstname', 'customerid_id__lastname')
+    ordering_fields = ('invoiceid')
 
 # Function-based views
 @api_view(['GET', ])

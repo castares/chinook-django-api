@@ -1,12 +1,11 @@
 from rest_framework import serializers
 from api import models
 
-
-
 class AlbumsSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Albums
         fields = ('albumid', 'title', 'artistid')
+        depth = 1
 
 class ArtistsSerializer(serializers.ModelSerializer):
     class Meta:
@@ -17,4 +16,4 @@ class InvoicesSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Invoices
         fields = '__all__'
-
+        depth = 1

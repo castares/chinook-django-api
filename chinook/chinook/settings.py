@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
 ]
 
-#REST Framework
+# REST Framework
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
@@ -95,8 +95,8 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     },
     'chinook': {
-        'ENGINE' : 'django.db.backends.sqlite3',
-        'NAME' : os.path.join(BASE_DIR, '../chinook.db')
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, '../chinook.db')
     }
 }
 
