@@ -5,7 +5,6 @@ class AlbumsSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Albums
         fields = ('albumid', 'title', 'artistid')
-        depth = 1
 
 class ArtistsSerializer(serializers.ModelSerializer):
     class Meta:
