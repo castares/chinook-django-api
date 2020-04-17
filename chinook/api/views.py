@@ -3,6 +3,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from rest_framework import generics
 from rest_framework import mixins
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.filters import SearchFilter, OrderingFilter
@@ -22,10 +24,9 @@ class ArtistsView(generics.GenericAPIView, mixins.ListModelMixin, mixins.Retriev
             return self.retrieve(request, name)
         return self.list(request)
 
-class AlbumsView(generics.GenericAPIView, mixins.ListModelMixin, mixins.RetrieveModelMixin):
+class AlbumsView(generics.ListAPIView):
     serializer_class = AlbumsSerializer
     lookup_field='artistid'
-    context_object_name = 'Albums View'
 
     def get_queryset(self):
         artistid = self.kwargs.get(self.lookup_field)
@@ -35,9 +36,6 @@ class AlbumsView(generics.GenericAPIView, mixins.ListModelMixin, mixins.Retrieve
             queryset = Albums.objects.all().order_by('albumid')
         return queryset
 
-    def get(self, request):
-        self.get_queryset()
-        return self.list(request)
 
 class InvoicesView(generics.ListAPIView):
     authentication_classes = (TokenAuthentication,)
@@ -48,3 +46,11 @@ class InvoicesView(generics.ListAPIView):
     filter_backends = (SearchFilter, OrderingFilter)
     search_fields = ('billingcity','billingstate', 'customerid_id__firstname', 'customerid_id__lastname')
     ordering_fields = ('invoiceid')
+
+
+# @api_view(['GET'])
+# def api_root(request, format=None):
+#     return Response({
+#         'albums': reverse('albums', request=request, format=format),
+#         'artists': reverse('artists', request=request, format=format)
+#     })
