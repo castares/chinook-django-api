@@ -11,6 +11,7 @@ app_name='api'
 # router.register(r'invoices', views.InvoicesView)
 
 urlpatterns = [
+    path('', views.IndexView.as_view(), name='root'),
     path('albums/', views.AlbumsView.as_view(), name='albums'),
     path('albums/<int:artistid>/', views.AlbumsView.as_view(), name='albums-by-artist'),
     path('artists/', views.ArtistsView.as_view(), name='artists'),

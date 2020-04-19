@@ -3,7 +3,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from rest_framework import generics
 from rest_framework import mixins
-from rest_framework.decorators import api_view
+from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework.pagination import PageNumberPagination
@@ -13,6 +13,20 @@ from django.shortcuts import get_object_or_404
 # Local imports
 from .serializers import AlbumsSerializer, ArtistsSerializer, InvoicesSerializer
 from .models import Albums, Artists, Invoices
+
+class IndexView(APIView):
+
+    def get(self, request):
+        endpoints = {
+
+            'albums' : reverse('api:albums', request=request),
+            'albums by artist' : reverse('api:albums-by-artist', args=[1], request=request),
+            'artists' : reverse('api:artists', request=request),
+            'artists by name' : reverse('api:artists-by-name', args=['Accept'], request=request),
+            'invoices' : reverse('api:invoices', request=request)
+       
+         }
+        return Response(endpoints)
 
 class ArtistsView(generics.GenericAPIView, mixins.ListModelMixin, mixins.RetrieveModelMixin):
     serializer_class = ArtistsSerializer
@@ -36,7 +50,6 @@ class AlbumsView(generics.ListAPIView):
             queryset = Albums.objects.all().order_by('albumid')
         return queryset
 
-
 class InvoicesView(generics.ListAPIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
@@ -47,10 +60,7 @@ class InvoicesView(generics.ListAPIView):
     search_fields = ('billingcity','billingstate', 'customerid_id__firstname', 'customerid_id__lastname')
     ordering_fields = ('invoiceid')
 
+class CustomersView(generics.ListCreateAPIView, mixins.UpdateModelMixin):
+    pass
 
-# @api_view(['GET'])
-# def api_root(request, format=None):
-#     return Response({
-#         'albums': reverse('albums', request=request, format=format),
-#         'artists': reverse('artists', request=request, format=format)
-#     })
+
