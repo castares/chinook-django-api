@@ -1,10 +1,3 @@
-# This is an auto-generated Django model module.
-# You'll have to do the following manually to clean this up:
-#   * Rearrange models' order
-#   * Make sure each model has one field with primary_key=True
-#   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
-#   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
-# Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
 
 
@@ -14,7 +7,7 @@ class Albums(models.Model):
     artistid = models.ForeignKey('Artists', db_column='ArtistId', on_delete=models.CASCADE )
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'albums'
 
 
@@ -23,7 +16,7 @@ class Artists(models.Model):
     name = models.CharField(db_column='Name', max_length=160, blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'artists'
 
 class Customers(models.Model):
@@ -42,7 +35,7 @@ class Customers(models.Model):
     supportrepid = models.ForeignKey('Employees', db_column='SupportRepId', on_delete=models.CASCADE)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'customers'
 
 
@@ -64,7 +57,7 @@ class Employees(models.Model):
     email = models.CharField(db_column='Email', max_length=160, blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'employees'
 
 
@@ -76,7 +69,7 @@ class InvoiceItems(models.Model):
     quantity = models.IntegerField(db_column='Quantity')
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'invoice_items'
 
 
@@ -92,7 +85,7 @@ class Invoices(models.Model):
     total = models.CharField(db_column='Total', max_length=160)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'invoices'
         
 class Genres(models.Model):
@@ -100,7 +93,7 @@ class Genres(models.Model):
     name = models.CharField(db_column='Name', max_length=160)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'genres'
 
 class MediaTypes(models.Model):
@@ -108,7 +101,7 @@ class MediaTypes(models.Model):
     name = models.CharField(db_column='Name', max_length=160)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'media_types'
 
 
@@ -117,7 +110,7 @@ class Playlists(models.Model):
     name = models.CharField(db_column='Name', max_length=160)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'playlists'
 
 
@@ -127,7 +120,7 @@ class PlaylistTrack(models.Model):
     trackid = models.ForeignKey("Tracks", db_column='TrackId', on_delete=models.CASCADE)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'playlist_track'
 
 
@@ -143,7 +136,7 @@ class Tracks(models.Model):
     unitprice = models.CharField(db_column='UnitPrice', max_length=160)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'tracks'
 
 
