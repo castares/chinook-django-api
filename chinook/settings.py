@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+import django_heroku
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -96,7 +97,7 @@ DATABASES = {
     },
     'chinook': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, '../chinook.db')
+        'NAME': os.path.join(BASE_DIR, './chinook.db')
     }
 }
 
@@ -138,7 +139,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-STATIC_URL = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_URL = os.path.join(BASE_DIR, 'staticfiles/')
 
 # # Storages
 # AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
@@ -148,3 +149,5 @@ STATIC_URL = os.path.join(BASE_DIR, 'staticfiles')
 
 # DEFAULT_FILE_STORAGE='storages.backends.s3boto3.S3Boto3Storage'
 # STATICFILES_STORAGE='storages.backends.s3boto3.S3Boto3Storage'
+
+django_heroku.settings(locals())
