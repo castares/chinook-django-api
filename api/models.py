@@ -7,7 +7,7 @@ class Albums(models.Model):
     artistid = models.ForeignKey('Artists', db_column='ArtistId', on_delete=models.CASCADE )
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'albums'
 
 
@@ -16,7 +16,7 @@ class Artists(models.Model):
     name = models.CharField(db_column='Name', max_length=160, blank=True, null=True)
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'artists'
 
 class Customers(models.Model):
@@ -32,10 +32,10 @@ class Customers(models.Model):
     phone = models.CharField(db_column='Phone', max_length=160, blank=True, null=True)
     fax = models.CharField(db_column='Fax', max_length=160, blank=True, null=True)
     email = models.CharField(db_column='Email', max_length=160)
-    supportrepid = models.ForeignKey('Employees', db_column='SupportRepId', on_delete=models.CASCADE)
+    supportrepid = models.ForeignKey('Employees', db_column='SupportRepId', on_delete=models.CASCADE, null=True)
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'customers'
 
 
@@ -57,7 +57,7 @@ class Employees(models.Model):
     email = models.CharField(db_column='Email', max_length=160, blank=True, null=True)
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'employees'
 
 
@@ -69,7 +69,7 @@ class InvoiceItems(models.Model):
     quantity = models.IntegerField(db_column='Quantity')
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'invoice_items'
 
 
@@ -85,58 +85,57 @@ class Invoices(models.Model):
     total = models.CharField(db_column='Total', max_length=160)
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'invoices'
         
 class Genres(models.Model):
     genreid = models.AutoField(db_column='GenreId', primary_key=True)
-    name = models.CharField(db_column='Name', max_length=160)
+    name = models.CharField(db_column='Name', max_length=160, null=True)
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'genres'
 
 class MediaTypes(models.Model):
     mediatypeid = models.AutoField(db_column='MediaTypeId', primary_key=True)
-    name = models.CharField(db_column='Name', max_length=160)
+    name = models.CharField(db_column='Name', max_length=160, null=True)
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'media_types'
 
 
 class Playlists(models.Model):
     playlistid = models.AutoField(db_column='PlaylistId', primary_key=True)
-    name = models.CharField(db_column='Name', max_length=160)
+    name = models.CharField(db_column='Name', max_length=160, null=True)
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'playlists'
 
 
 class PlaylistTrack(models.Model):
-    id = models.AutoField(primary_key=True)
     playlistid = models.ForeignKey("Playlists", db_column='PlaylistId', on_delete=models.CASCADE)
     trackid = models.ForeignKey("Tracks", db_column='TrackId', on_delete=models.CASCADE)
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'playlist_track'
 
 
 class Tracks(models.Model):
     trackid = models.AutoField(db_column='TrackId', primary_key=True)
-    name = models.CharField(db_column='Name', max_length=160) 
-    albumid = models.ForeignKey('Albums', db_column='AlbumId', on_delete=models.CASCADE)
+    name = models.CharField(db_column='Name', max_length=160, null=True) 
+    albumid = models.ForeignKey('Albums', db_column='AlbumId', on_delete=models.CASCADE, null=True)
     mediatypeid = models.ForeignKey('MediaTypes', db_column='MediaTypeId', on_delete=models.CASCADE)
-    genreid = models.ForeignKey('Genres', db_column='GenreId', on_delete=models.CASCADE)
+    genreid = models.ForeignKey('Genres', db_column='GenreId', on_delete=models.CASCADE, null=True)
     composer = models.CharField(db_column='Composer', max_length=160, blank=True, null=True)
     milliseconds = models.IntegerField(db_column='Milliseconds')
     bytes = models.IntegerField(db_column='Bytes', blank=True, null=True)
     unitprice = models.CharField(db_column='UnitPrice', max_length=160)
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'tracks'
 
 
