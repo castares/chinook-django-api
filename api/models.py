@@ -1,10 +1,17 @@
+# This is an auto-generated Django model module.
+# You'll have to do the following manually to clean this up:
+#   * Rearrange models' order
+#   * Make sure each model has one field with primary_key=True
+#   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
+#   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
+# Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
 
 
 class Albums(models.Model):
-    albumid = models.AutoField(db_column='AlbumId', primary_key=True)
-    title = models.CharField(db_column='Title', max_length=160)
-    artistid = models.ForeignKey('Artists', db_column='ArtistId', on_delete=models.CASCADE )
+    albumid = models.BigAutoField(primary_key=True)
+    title = models.TextField(blank=True, null=True)
+    artistid = models.ForeignKey('Artists', models.DO_NOTHING, db_column='artistid', blank=True, null=True)
 
     class Meta:
         managed = False
@@ -12,27 +19,28 @@ class Albums(models.Model):
 
 
 class Artists(models.Model):
-    artistid = models.AutoField(db_column='ArtistId', primary_key=True)
-    name = models.CharField(db_column='Name', max_length=160, blank=True, null=True)
+    artistid = models.BigAutoField(primary_key=True)
+    name = models.TextField(blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'artists'
 
+
 class Customers(models.Model):
-    customerid = models.AutoField(db_column='CustomerId', primary_key=True)
-    firstname = models.CharField(db_column='FirstName', max_length=160)
-    lastname = models.CharField(db_column='LastName', max_length=160)
-    company = models.CharField(db_column='Company', max_length=160, blank=True, null=True)
-    address = models.CharField(db_column='Address', max_length=160, blank=True, null=True)
-    city = models.CharField(db_column='City', max_length=160, blank=True, null=True)
-    state = models.CharField(db_column='State', max_length=160, blank=True, null=True)
-    country = models.CharField(db_column='Country', max_length=160, blank=True, null=True)
-    postalcode = models.CharField(db_column='PostalCode', max_length=160, blank=True, null=True)
-    phone = models.CharField(db_column='Phone', max_length=160, blank=True, null=True)
-    fax = models.CharField(db_column='Fax', max_length=160, blank=True, null=True)
-    email = models.CharField(db_column='Email', max_length=160)
-    supportrepid = models.ForeignKey('Employees', db_column='SupportRepId', on_delete=models.CASCADE, null=True)
+    customerid = models.BigAutoField(primary_key=True)
+    firstname = models.TextField(blank=True, null=True)
+    lastname = models.TextField(blank=True, null=True)
+    company = models.TextField(blank=True, null=True)
+    address = models.TextField(blank=True, null=True)
+    city = models.TextField(blank=True, null=True)
+    state = models.TextField(blank=True, null=True)
+    country = models.TextField(blank=True, null=True)
+    postalcode = models.TextField(blank=True, null=True)
+    phone = models.TextField(blank=True, null=True)
+    fax = models.TextField(blank=True, null=True)
+    email = models.TextField(blank=True, null=True)
+    supportrepid = models.ForeignKey('Employees', models.DO_NOTHING, db_column='supportrepid', blank=True, null=True)
 
     class Meta:
         managed = False
@@ -40,33 +48,42 @@ class Customers(models.Model):
 
 
 class Employees(models.Model):
-    employeeid = models.AutoField(db_column='EmployeeId', primary_key=True)
-    lastname = models.CharField(db_column='LastName', max_length=160)
-    firstname = models.CharField(db_column='FirstName', max_length=160)
-    title = models.CharField(db_column='Title', max_length=160, blank=True, null=True)
-    reportsto = models.IntegerField(db_column='ReportsTo', blank=True, null=True)
-    birthdate = models.DateTimeField(db_column='BirthDate', blank=True, null=True)
-    hiredate = models.DateTimeField(db_column='HireDate', blank=True, null=True)
-    address = models.CharField(db_column='Address', max_length=160, blank=True, null=True)
-    city = models.CharField(db_column='City', max_length=160, blank=True, null=True)
-    state = models.CharField(db_column='State', max_length=160, blank=True, null=True)
-    country = models.CharField(db_column='Country', max_length=160, blank=True, null=True)
-    postalcode = models.CharField(db_column='PostalCode', max_length=160, blank=True, null=True)
-    phone = models.CharField(db_column='Phone', max_length=160, blank=True, null=True)
-    fax = models.CharField(db_column='Fax',  max_length=160, blank=True, null=True)
-    email = models.CharField(db_column='Email', max_length=160, blank=True, null=True)
+    employeeid = models.BigAutoField(primary_key=True)
+    lastname = models.TextField(blank=True, null=True)
+    firstname = models.TextField(blank=True, null=True)
+    title = models.TextField(blank=True, null=True)
+    reportsto = models.ForeignKey('self', models.DO_NOTHING, db_column='reportsto', blank=True, null=True)
+    birthdate = models.DateTimeField(blank=True, null=True)
+    hiredate = models.DateTimeField(blank=True, null=True)
+    address = models.TextField(blank=True, null=True)
+    city = models.TextField(blank=True, null=True)
+    state = models.TextField(blank=True, null=True)
+    country = models.TextField(blank=True, null=True)
+    postalcode = models.TextField(blank=True, null=True)
+    phone = models.TextField(blank=True, null=True)
+    fax = models.TextField(blank=True, null=True)
+    email = models.TextField(blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'employees'
 
 
+class Genres(models.Model):
+    genreid = models.BigAutoField(primary_key=True)
+    name = models.TextField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'genres'
+
+
 class InvoiceItems(models.Model):
-    invoicelineid = models.AutoField(db_column='InvoiceLineId', primary_key=True)
-    invoiceid = models.ForeignKey('Invoices', db_column='InvoiceId', on_delete=models.CASCADE)
-    trackid = models.IntegerField(db_column='TrackId')
-    unitprice = models.CharField(db_column='UnitPrice', max_length=160)
-    quantity = models.IntegerField(db_column='Quantity')
+    invoicelineid = models.BigAutoField(primary_key=True)
+    invoiceid = models.ForeignKey('Invoices', models.DO_NOTHING, db_column='invoiceid', blank=True, null=True)
+    trackid = models.ForeignKey('Tracks', models.DO_NOTHING, db_column='trackid', blank=True, null=True)
+    unitprice = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    quantity = models.BigIntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -74,69 +91,70 @@ class InvoiceItems(models.Model):
 
 
 class Invoices(models.Model):
-    invoiceid = models.AutoField(db_column='InvoiceId', primary_key=True)
-    customerid = models.ForeignKey('Customers', db_column='CustomerId', on_delete=models.PROTECT)
-    invoicedate = models.DateTimeField(db_column='InvoiceDate')
-    billingaddress = models.CharField(db_column='BillingAddress', max_length=160, blank=True, null=True)
-    billingcity = models.CharField(db_column='BillingCity', max_length=160, blank=True, null=True)
-    billingstate = models.CharField(db_column='BillingState', max_length=160, blank=True, null=True)
-    billingcountry = models.CharField(db_column='BillingCountry', max_length=160, blank=True, null=True)
-    billingpostalcode = models.CharField(db_column='BillingPostalCode', max_length=160, blank=True, null=True)
-    total = models.CharField(db_column='Total', max_length=160)
+    invoiceid = models.BigAutoField(primary_key=True)
+    customerid = models.ForeignKey(Customers, models.DO_NOTHING, db_column='customerid', blank=True, null=True)
+    invoicedate = models.DateTimeField(blank=True, null=True)
+    billingaddress = models.TextField(blank=True, null=True)
+    billingcity = models.TextField(blank=True, null=True)
+    billingstate = models.TextField(blank=True, null=True)
+    billingcountry = models.TextField(blank=True, null=True)
+    billingpostalcode = models.TextField(blank=True, null=True)
+    total = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'invoices'
-        
-class Genres(models.Model):
-    genreid = models.AutoField(db_column='GenreId', primary_key=True)
-    name = models.CharField(db_column='Name', max_length=160, null=True)
 
-    class Meta:
-        managed = False
-        db_table = 'genres'
 
 class MediaTypes(models.Model):
-    mediatypeid = models.AutoField(db_column='MediaTypeId', primary_key=True)
-    name = models.CharField(db_column='Name', max_length=160, null=True)
+    mediatypeid = models.BigAutoField(primary_key=True)
+    name = models.TextField(blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'media_types'
 
 
+class PlaylistTrack(models.Model):
+    playlistid = models.OneToOneField('Playlists', models.DO_NOTHING, db_column='playlistid', primary_key=True)
+    trackid = models.ForeignKey('Tracks', models.DO_NOTHING, db_column='trackid')
+
+    class Meta:
+        managed = False
+        db_table = 'playlist_track'
+        unique_together = (('playlistid', 'trackid'), ('playlistid', 'trackid'),)
+
+
 class Playlists(models.Model):
-    playlistid = models.AutoField(db_column='PlaylistId', primary_key=True)
-    name = models.CharField(db_column='Name', max_length=160, null=True)
+    playlistid = models.BigAutoField(primary_key=True)
+    name = models.TextField(blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'playlists'
 
 
-class PlaylistTrack(models.Model):
-    playlistid = models.ForeignKey("Playlists", db_column='PlaylistId', on_delete=models.CASCADE)
-    trackid = models.ForeignKey("Tracks", db_column='TrackId', on_delete=models.CASCADE)
+class SqliteStat1(models.Model):
+    tbl = models.TextField(blank=True, null=True)
+    idx = models.TextField(blank=True, null=True)
+    stat = models.TextField(blank=True, null=True)
 
     class Meta:
         managed = False
-        db_table = 'playlist_track'
+        db_table = 'sqlite_stat1'
 
 
 class Tracks(models.Model):
-    trackid = models.AutoField(db_column='TrackId', primary_key=True)
-    name = models.CharField(db_column='Name', max_length=160, null=True) 
-    albumid = models.ForeignKey('Albums', db_column='AlbumId', on_delete=models.CASCADE, null=True)
-    mediatypeid = models.ForeignKey('MediaTypes', db_column='MediaTypeId', on_delete=models.CASCADE)
-    genreid = models.ForeignKey('Genres', db_column='GenreId', on_delete=models.CASCADE, null=True)
-    composer = models.CharField(db_column='Composer', max_length=160, blank=True, null=True)
-    milliseconds = models.IntegerField(db_column='Milliseconds')
-    bytes = models.IntegerField(db_column='Bytes', blank=True, null=True)
-    unitprice = models.CharField(db_column='UnitPrice', max_length=160)
+    trackid = models.BigAutoField(primary_key=True)
+    name = models.TextField(blank=True, null=True)
+    albumid = models.ForeignKey(Albums, models.DO_NOTHING, db_column='albumid', blank=True, null=True)
+    mediatypeid = models.ForeignKey(MediaTypes, models.DO_NOTHING, db_column='mediatypeid', blank=True, null=True)
+    genreid = models.ForeignKey(Genres, models.DO_NOTHING, db_column='genreid', blank=True, null=True)
+    composer = models.TextField(blank=True, null=True)
+    milliseconds = models.BigIntegerField(blank=True, null=True)
+    bytes = models.BigIntegerField(blank=True, null=True)
+    unitprice = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'tracks'
-
-
-
