@@ -134,16 +134,6 @@ class Playlists(models.Model):
         db_table = 'playlists'
 
 
-class SqliteStat1(models.Model):
-    tbl = models.TextField(blank=True, null=True)
-    idx = models.TextField(blank=True, null=True)
-    stat = models.TextField(blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'sqlite_stat1'
-
-
 class Tracks(models.Model):
     trackid = models.BigAutoField(primary_key=True)
     name = models.TextField(blank=True, null=True)
