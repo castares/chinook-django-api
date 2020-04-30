@@ -5,11 +5,6 @@ from rest_framework.authtoken.views import obtain_auth_token
 
 app_name='api'
 
-# router = routers.DefaultRouter()
-# router.register(r'albums', views.AlbumsViewSet)
-# router.register(r'artists', views.ArtistsViewSet)
-# router.register(r'invoices', views.InvoicesView)
-
 urlpatterns = [
     path('', views.IndexView.as_view(), name='root'),
     path('albums/', views.AlbumsView.as_view(), name='albums'),
@@ -17,6 +12,9 @@ urlpatterns = [
     path('artists/', views.ArtistsView.as_view(), name='artists'),
     path('artists/<str:name>/', views.ArtistsView.as_view(), name='artists-by-name'),
     path('invoices/', views.InvoicesView.as_view(), name='invoices'),
-    path('token/', obtain_auth_token, name='login')
+    path('invoices/<int:customerid>/', views.InvoicesView.as_view(), name='invoices-by-customer'),
+    path('customers/', views.CustomersView.as_view(), name='customers'),
+    path('invoiceitems/', views.InvoiceItemsView.as_view(), name='invoiceitems'),
+    path('token/', obtain_auth_token, name='token')
 
 ]

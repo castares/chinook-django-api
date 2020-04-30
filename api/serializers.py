@@ -25,6 +25,7 @@ class InvoiceItemsSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.InvoiceItems
         fields = '__all__'
+        depth = 2
 
 class InvoicesSerializer(serializers.ModelSerializer):
     class Meta:
