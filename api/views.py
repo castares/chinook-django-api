@@ -35,6 +35,7 @@ class IndexView(APIView):
             'invoices' : reverse('api:invoices', request=request),
             'invoices-by-customer' : reverse('api:invoices-by-customer', args=[1], request=request),
             'customers' : reverse('api:customers', request=request),
+            'customer-by-id' : reverse('api:customer-by-id', args=[1], request=request),
             'invoiceitems' : reverse('api:invoiceitems', request=request)
        
          }
@@ -85,6 +86,13 @@ class CustomersView(generics.ListAPIView, mixins.RetrieveModelMixin):
     serializer_class = CustomersSerializer     
     queryset = Customers.objects.all().order_by('customerid')
 
+    def get(self, request, pk=None):
+        """
+        pk maps to customerid
+        """
+        if pk:
+            return self.retrieve(request, pk)
+        return self.list(request)
 
 class InvoiceItemsView(generics.ListAPIView):
     pagination_class = PageNumberPagination

@@ -14,6 +14,7 @@ urlpatterns = [
     path('invoices/', views.InvoicesView.as_view(), name='invoices'),
     path('invoices/<int:customerid>/', views.InvoicesView.as_view(), name='invoices-by-customer'),
     path('customers/', views.CustomersView.as_view(), name='customers'),
+    path('customers/<int:pk>/', views.CustomersView.as_view(), name='customer-by-id'),
     path('invoiceitems/', views.InvoiceItemsView.as_view(), name='invoiceitems'),
     path('token/', obtain_auth_token, name='token')
 
